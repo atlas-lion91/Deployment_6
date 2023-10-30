@@ -14,23 +14,23 @@
 
 
 ## Step #2: Jenkins - Automating Build, Test, and Deploy
-Jenkins plays a crucial role in automating the building, testing, and deployment of our banking application. The Jenkins instance and the agent both require specific software installations. 
+> Jenkins plays a crucial role in automating the building, testing, and deployment of our banking application. The Jenkins instance and the agent both require specific software installations. 
 
 ### Jenkins Agent Infrastructure
-Utilize Terraform to instantiate the Jenkins Agent Infrastructure, ensuring that the Jenkins instance and the Jenkins agent instance have all required installations, including Terraform itself.
+> Utilize Terraform to instantiate the Jenkins Agent Infrastructure, ensuring that the Jenkins instance and the Jenkins agent instance have all required installations, including Terraform itself.
 
 ### Setting Up Jenkins and Configuring the Node
 Instructions:
-1. **Create a Key Pair**: Essential for secure SSH access.
-2. **Configure Jenkins**: Set up and configure the Jenkins node.
-3. **Configure AWS Access and Secret Keys**: Required for the Jenkins node to execute Terraform scripts.
-4. **Install the 'Pipeline Keep Running Step' Plugin**: Install manually through the Jenkins GUI.
+> 1. **Create a Key Pair**: Essential for secure SSH access.
+> 2. **Configure Jenkins**: Set up and configure the Jenkins node.
+> 3. **Configure AWS Access and Secret Keys**: Required for the Jenkins node to execute Terraform scripts.
+> 4. **Install the 'Pipeline Keep Running Step' Plugin**: Install manually through the Jenkins GUI.
 
 ---
 
 ## Step #3: GitHub/Git Integration and Setup
 ### Setting Up the GitHub Repository for Integration with Jenkins
-GitHub is pivotal as it stores the files that Jenkins needs for building, testing, building the infrastructure for our banking application, and finally deploying the application itself. To facilitate access from the Jenkins-installed EC2 instance to the repository, a GitHub token needs to be generated and provided to the EC2 instance.
+> GitHub is pivotal as it stores the files that Jenkins needs for building, testing, building the infrastructure for our banking application, and finally deploying the application itself. To facilitate access from the Jenkins-installed EC2 instance to the repository, a GitHub token needs to be generated and provided to the EC2 instance.
 
 
 #### GIT - Jenkins Agent Infrastructure
@@ -97,25 +97,25 @@ Amazon RDS is utilized to manage our MySQL database across all four instances. I
 
 
 ## Step #5: Utilizing Jenkins Agent for Terraform Script Execution
-We aim to automate the construction of our banking application’s infrastructure across two regions (US-east-1 and US-west-2). For each region, we seek to establish:
+> The aim is to automate the construction of our banking application’s infrastructure across two regions (US-east-1 and US-west-2). For each region, we need to establish:
 
-- 1 VPC
-- 2 Availability Zones
-- 2 Public Subnets
-- 2 EC2 Instances
-- 1 Route Table
-- 1 Security Group (configured for ports 22 and 8000)
+> - 1 VPC
+> - 2 Availability Zones
+> - 2 Public Subnets
+> - 2 EC2 Instances
+> - 1 Route Table
+> - 1 Security Group (configured for ports 22 and 8000)
 
 ### Deploying the Application
-We use a `deploy.sh` script for installing dependencies and deploying the banking application. 
+> We use a `deploy.sh` script for installing dependencies and deploying the banking application. 
 
 #### Jenkins Build
-Create a Jenkins build named "deploy_6" to run the `Jenkinsfilev`. This build encompasses stages such as "Build", "Test", "Clean", "Init", "Plan", and "Apply". The "Apply" stage also includes the application's deployment.
+> Create a Jenkins build named "deploy_6" to run the `Jenkinsfilev`. This build encompasses stages such as "Build", "Test", "Clean", "Init", "Plan", and "Apply". The "Apply" stage also includes the application's deployment.
 
 ---
 
 ## Step #6: Configuring the Application Load Balancer (ALB)
-The ALB ensures an even distribution of incoming web traffic across multiple servers or instances, bolstering the application's availability, responsiveness, and efficiency.
+> The ALB ensures an even distribution of incoming web traffic across multiple servers or instances, bolstering the application's availability, responsiveness, and efficiency.
 
 ### Setting Up the ALB
 
@@ -123,18 +123,18 @@ The ALB ensures an even distribution of incoming web traffic across multiple ser
 ---
 
 ## Issues Encountered
-1. **Resource Shortage in AWS**: Encountered insufficient CPU and internet gateway resources. The solution was to terminate unused resources and re-run Terraform.
-2. **Database Endpoint Confusion**: Required trial and error to identify whether to use the DB instance identifier or initial database name.
-3. **RDS Port Configuration**: Initially, port 3306 was not configured, leading to a failed test stage.
-4. **Two-region Infrastructure in Terraform**: Resolved by giving an alias to the second AWS provider and specifying the provider for each related resource block.
-5. **ALB VPC Selection**: Initially selected the wrong VPC when configuring the ALB, necessitating a recreation of the load balancer.
+> 1. **Resource Shortage in AWS**: Encountered insufficient CPU and internet gateway resources. The solution was to terminate unused resources and re-run Terraform.
+> 2. **Database Endpoint Confusion**: Required trial and error to identify whether to use the DB instance identifier or initial database name.
+> 3. **RDS Port Configuration**: Initially, port 3306 was not configured, leading to a failed test stage.
+> 4. **Two-region Infrastructure in Terraform**: Resolved by giving an alias to the second AWS provider and specifying the provider for each related resource block.
+> 5. **ALB VPC Selection**: Initially selected the wrong VPC when configuring the ALB, necessitating a recreation of the load balancer.
 
 ---
 
 ## Optimization Opportunities
-1. **Enhance Automation with Terraform Modules**: Streamline the AWS Cloud Infrastructure setup.
-2. **Implement Auto Scaling Groups with ALB**: Ensure dynamic scaling based on traffic load.
-3. **Utilize Docker for Application Deployment**: Enhance the consistency and efficiency of deployments.
+> 1. **Enhance Automation with Terraform Modules**: Streamline the AWS Cloud Infrastructure setup.
+> 2. **Implement Auto Scaling Groups with ALB**: Ensure dynamic scaling based on traffic load.
+> 3. **Utilize Docker for Application Deployment**: Enhance the consistency and efficiency of deployments.
 
 ---
 
