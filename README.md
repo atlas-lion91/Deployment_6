@@ -84,18 +84,19 @@ October 28, 2023
 
 > 3. **Push Your Code to GitHub**: 
 >   - Add all the changes you’ve made to the staging area:
-     ```bash
+ ```bash
       git add main.tf terraform.tfvars variables.tf installfile1.sh installfile.sh
-      git commit -m #Setup Jenkins Agent Infrastructure
+      git commit -m
+     #Setup Jenkins Agent Infrastructure
       git push --set-upstream origin second
       git switch main
       git merge second
       git push --all
-     ```
+ ```
 
 #### Continuous Integration and Deployment with Jenkins
 
-> Utilizing GitHub with Jenkins for CI/CD automates the process of testing and deploying your application. Follow the steps outlined in the Jenkins Pipeline section of this documentation to set up automated builds and deployments triggered by changes in your GitHub repository.
+> Utilizing GitHub with Jenkins for CI/CD automates the process of testing and deploying your application. Set up automated builds and deployments triggered by changes in your GitHub repository.
 
 > Ensure that your `Jenkinsfile` in your repository is correctly configured to handle the deployment process, and that any necessary build and deployment scripts are included in your repository and referenced correctly in the `Jenkinsfile`.
 
@@ -134,9 +135,9 @@ October 28, 2023
 
 ## Optimization
 
-- Enhance Automation with Terraform Modules: Streamline the AWS Cloud Infrastructure setup.
-- Implement Auto Scaling Groups with ALB: Ensure dynamic scaling based on traffic load.
-- Utilize Docker for Application Deployment: Enhance the consistency and efficiency of deployments.
+> - Enhance Automation with Terraform Modules: Streamline the AWS Cloud Infrastructure setup.
+> - Implement Auto Scaling Groups with ALB: Ensure dynamic scaling based on traffic load.
+> - Utilize Docker for Application Deployment: Enhance the consistency and efficiency of deployments.
 
 ---
 
