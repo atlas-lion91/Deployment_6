@@ -1,7 +1,7 @@
 ################################### A W S #################################
 
-access_key = "AKIA5BI5X3I5YOL2ZJF4"
-secret_key = "VXlAFq5Ua5Oo/q4LLkryZorFDtkc1Mrwrb4QONZ"
+access_key = ""
+secret_key = ""
 region = "us-east-1"
 
 
