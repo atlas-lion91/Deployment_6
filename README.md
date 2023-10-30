@@ -35,15 +35,15 @@ October 28, 2023
      export AWS_SECRET_ACCESS_KEY="your_secret_key"
      ```
 
-3. **Validate and Plan Your Infrastructure**: 
- >  - Check your Terraform files' syntax with `terraform validate`.
- >  - Preview the resources to be created with `terraform plan`.
+> 3. **Validate and Plan Your Infrastructure**: 
+>  - Check your Terraform files' syntax with `terraform validate`.
+>  - Preview the resources to be created with `terraform plan`.
 
-4. **Apply Your Configuration**: Deploy your infrastructure using `terraform apply`.
+> 4. **Apply Your Configuration**: Deploy your infrastructure using `terraform apply`.
 
-5. **Clean Up**: When needed, remove your resources with `terraform destroy`.
+> 5. **Clean Up**: When needed, remove your resources with `terraform destroy`.
 
-6. **Manage Variables**: Use a `variables.tf` file to define and manage your Terraform variables.
+> 6. **Manage Variables**: Use a `variables.tf` file to define and manage your Terraform variables.
 
 ## Jenkins Infrastructure Setup
 > 1. Use Terraform to deploy Jenkins host and agent servers within an existing VPC and subnet.
@@ -53,19 +53,19 @@ October 28, 2023
 
 ## Git and GitHub Integration
 
-Git is a distributed version control system that helps you track changes in your code throughout various stages of development. GitHub, on the other hand, is a web-based platform that uses Git for version control and provides a space for collaborative work on projects. For this retail banking application deployment, we extensively use Git for version control and GitHub for hosting our code repository and facilitating Continuous Integration (CI) and Continuous Deployment (CD) with Jenkins.
+> Git is a distributed version control system that helps you track changes in your code throughout various stages of development. GitHub, on the other hand, is a web-based platform that uses Git for version control and provides a space for collaborative work on projects. For this retail banking application deployment, we extensively use Git for version control and GitHub for hosting our code repository and facilitating Continuous Integration (CI) and Continuous Deployment (CD) with Jenkins.
 
 #### Setting Up the Repository
 
-1. **Initialize a Git Repository**: If you haven’t already initialized a Git repository in your project directory, you can do so by running:
+> 1. **Initialize a Git Repository**: If you haven’t already initialized a Git repository in your project directory, you can do so by running:
    ```bash
    git init
    ```
 
-2. **Connect Your Local Repository to GitHub**: 
-   - Create a new repository on your GitHub account.
-   - Copy the repository’s URL.
-   - Run the following commands in your project directory:
+> 2. **Connect Your Local Repository to GitHub**: 
+>   - Create a new repository on your GitHub account.
+>   - Copy the repository’s URL.
+>   - Run the following commands in your project directory:
      ```bash
      git clone https://github.com/atlas-lion91/Deployment_6.git
       cd Deployment_6/
@@ -82,8 +82,8 @@ Git is a distributed version control system that helps you track changes in your
 
      ```
 
-3. **Push Your Code to GitHub**: 
-   - Add all the changes you’ve made to the staging area:
+> 3. **Push Your Code to GitHub**: 
+>   - Add all the changes you’ve made to the staging area:
      ```bash
       git add main.tf terraform.tfvars variables.tf installfile1.sh installfile.sh
       git commit -m #Setup Jenkins Agent Infrastructure
@@ -95,9 +95,9 @@ Git is a distributed version control system that helps you track changes in your
 
 #### Continuous Integration and Deployment with Jenkins
 
-Utilizing GitHub with Jenkins for CI/CD automates the process of testing and deploying your application. Follow the steps outlined in the Jenkins Pipeline section of this documentation to set up automated builds and deployments triggered by changes in your GitHub repository.
+> Utilizing GitHub with Jenkins for CI/CD automates the process of testing and deploying your application. Follow the steps outlined in the Jenkins Pipeline section of this documentation to set up automated builds and deployments triggered by changes in your GitHub repository.
 
-Ensure that your `Jenkinsfile` in your repository is correctly configured to handle the deployment process, and that any necessary build and deployment scripts are included in your repository and referenced correctly in the `Jenkinsfile`.
+> Ensure that your `Jenkinsfile` in your repository is correctly configured to handle the deployment process, and that any necessary build and deployment scripts are included in your repository and referenced correctly in the `Jenkinsfile`.
 
 
 ## Jenkins Pipeline Configuration
