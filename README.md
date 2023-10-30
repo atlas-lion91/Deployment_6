@@ -46,9 +46,84 @@ October 28, 2023
 > 6. **Manage Variables**: Use a `variables.tf` file to define and manage your Terraform variables.
 
 ## Jenkins Infrastructure Setup
-> 1. Use Terraform to deploy Jenkins host and agent servers within an existing VPC and subnet.
-> 2. Configure Jenkins using the provided setup scripts.
-> 3. Access Jenkins at `http://{jenkins-public-ip}:8080` and follow the setup wizard.
+> - Use Terraform to deploy Jenkins host and agent servers within an existing VPC and subnet.
+> - Configure Jenkins using the provided setup scripts.
+> - Access Jenkins at `http://{jenkins-public-ip}:8080` and follow the setup wizard.
+
+
+### Instance 1: Jenkins Manager
+
+> The Jenkins Manager orchestrates the entire CI/CD process, including initiating builds, running tests, and managing the deployment process. It is the central unit that coordinates all the tasks and distributes jobs to agent nodes.
+
+#### Installations:
+
+> - **Jenkins**: The core application that provides the automation server for building, testing, and deploying code. It manages jobs, monitors execution, and ensures the CI/CD process runs smoothly.
+
+> - **software-properties-common**: This is a software utility that provides
+
+### Instance 1: Jenkins Manager
+
+#### Installations:
+
+> - **Jenkins**: 
+>  - *What it does*: The core application that provides the automation server for building, testing, and deploying code. 
+>  - *Why it’s necessary*: It manages jobs, monitors execution, and ensures the CI/CD process runs smoothly.
+
+> - **software-properties-common**: 
+>  - *What it does*: Provides scripts to manage the software repositories from which you can install packages and applications.
+>  - *Why it’s necessary*: It’s needed to add Personal Package Archives (PPAs) to the system, which allows you to install packages that are not available in the default repositories.
+
+> - **add-apt-repository -y ppa:deadsnakes/ppa**: 
+>  - *What it does*: Adds the DeadSnakes PPA to the system’s software repository list.
+>  - *Why it’s necessary*: DeadSnakes PPA provides newer versions of Python that are not available in the default Ubuntu repositories. This ensures you can install the specific version of Python required for your project.
+
+> - **python3.7**:
+>  - *What it does*: Installs Python 3.7 on the system.
+>  - *Why it’s necessary*: Many projects depend on Python for scripting, automation, and running various tools. Having a specific version ensures consistency across development environments.
+
+> - **python3.7-venv**:
+>  - *What it does*: Installs the Python 3.7 virtual environment package.
+>  - *Why it’s necessary*: Virtual environments allow you to create isolated Python environments for different projects, preventing dependency conflicts.
+
+> - **build-essential**:
+>  - *What it does*: Installs a collection of packages that are essential for compiling software from source.
+>  - *Why it’s necessary*: Required for building certain dependencies from source and for running build scripts.
+
+> - **libmysqlclient-dev**:
+>  - *What it does*: Provides the files required to compile Python modules that connect to MySQL.
+>  - *Why it’s necessary*: If your project interacts with a MySQL database, this library is required to build the MySQL connector.
+
+> - **python3.7-dev**:
+>  - *What it does*: Provides the header files needed to build Python extensions.
+>  - *Why it’s necessary*: Required for compiling certain Python modules from source.
+
+### Instance 2: Jenkins Agent
+
+> The Jenkins Agent is responsible for executing tasks assigned by the Jenkins Manager. In this context, it runs Terraform scripts, which are used for setting up infrastructure and deploying the application.
+
+#### Installations:
+
+> - **Terraform**: 
+>  - *What it does*: An infrastructure as code (IaC) tool that allows you to build, change, and version infrastructure efficiently.
+>  - *Why it’s necessary*: Used for automating the setup of infrastructure and deployment of the application. Ensures that the infrastructure is provisioned in a consistent and repeatable manner.
+
+> - **default-jre**: 
+>  - *What it does*: Installs the default Java Runtime Environment (JRE) on the system.
+>  - *Why it’s necessary*: Jenkins is a Java-based application, and certain plugins or tools used within Jenkins might require Java to be present on the system.
+
+> Together, these installations ensure that both the Jenkins Manager and Agent have the necessary tools and dependencies to manage and execute CI/CD tasks, leading to a more streamlined and reliable development workflow.
+
+
+## Jenkins Pipeline Configuration
+> 1. Create a multibranch pipeline for your Flask application.
+> 2. Configure the pipeline to connect to your GitHub repository.
+> 3. Ensure that pushes to the main branch trigger builds.
+
+![Jenkins](https://github.com/atlas-lion91/Deployment_6/assets/140761974/6b8444c7-36ac-472d-89b2-d37ad82dc373)
+
+## Jenkins Agent Configuration
+> 1. Add your Jenkins agent through the Jenkins dashboard.
+> 2. Provide the necessary credentials and configuration details.
 
 
 ## Git and GitHub Integration
@@ -98,17 +173,8 @@ October 28, 2023
 
 > Utilizing GitHub with Jenkins for CI/CD automates the process of testing and deploying your application. Set up automated builds and deployments triggered by changes in your GitHub repository.
 
-> Ensure that your `Jenkinsfile` in your repository is correctly configured to handle the deployment process, and that any necessary build and deployment scripts are included in your repository and referenced correctly in the `Jenkinsfile`.
+> Ensure that your `Jenkinsfile` in your repository is correctly configured to handle the deployment process and that any necessary build and deployment scripts are included in your repository and referenced correctly in the `Jenkinsfile`.
 
-
-## Jenkins Pipeline Configuration
-> 1. Create a multibranch pipeline for your Flask application.
-> 2. Configure the pipeline to connect to your GitHub repository.
-> 3. Ensure that pushes to the main branch trigger builds.
-
-## Jenkins Agent Configuration
-> 1. Add your Jenkins agent through the Jenkins dashboard.
-> 2. Provide the necessary credentials and configuration details.
 
 ## AWS RDS MySQL Database Setup
 > 1. Navigate to the AWS RDS console and create a new MySQL database.
@@ -119,9 +185,21 @@ October 28, 2023
 > 1. Update the database connection strings in your Flask application's code.
 > 2. Commit and push the changes to trigger the Jenkins pipeline.
 
-## AWS Infrastructure Details
-> - Each VPC contains an internet gateway, two public subnets, and EC2 instances hosting the Flask application.
-> - An Application Load Balancer is set up to distribute traffic between the EC2 instances.
+## Application Load Balancers
+> Application Load Balancers (ALBs) distribute incoming application traffic across multiple targets, such as EC2 instances, in multiple Availability Zones. This ensures the application has increased fault tolerance.
+> We set up ALB's in each region that our application is configured to deploy.
+>
+> 1. Region: us-east-1 (North Virginia)
+>    - IP Address Type: ipv4
+>    - Availability Zones: us-east-1c (use1-az6) & us-east-1b (use1-az4)
+>    - Target Groups: arn:aws:elasticloadbalancing:us-east-1:896099932731:targetgroup/tg1-east/f84995c4a13236dd
+>    - Target type: Application Load Balancer
+>   
+> 2. Region: us-west-2 (Oregon)
+>     - IP Address Type: ipv4
+>     - Availability Zones: us-west-2a (usw2-az1) & us-west-2b (usw2-az2)
+>     - Target Groups: arn:aws:elasticloadbalancing:us-west-2:896099932731:loadbalancer/net/ALB-west/246bbf875230c27b
+>     - Target type: Application Load Balancer
 ---
 
 ## Issues 
