@@ -107,21 +107,21 @@ October 28, 2023
 > 3. Ensure that pushes to the main branch trigger builds.
 
 ## Jenkins Agent Configuration
-1. Add your Jenkins agent through the Jenkins dashboard.
-2. Provide the necessary credentials and configuration details.
+> 1. Add your Jenkins agent through the Jenkins dashboard.
+> 2. Provide the necessary credentials and configuration details.
 
 ## AWS RDS MySQL Database Setup
-1. Navigate to the AWS RDS console and create a new MySQL database.
-2. Ensure the database is publicly accessible and configure the security group to allow traffic on port 3306.
-3. Note down the database endpoint for use in your application code.
+> 1. Navigate to the AWS RDS console and create a new MySQL database.
+> 2. Ensure the database is publicly accessible and configure the security group to allow traffic on port 3306.
+> 3. Note down the database endpoint for use in your application code.
 
 ## Application Code Setup
-1. Update the database connection strings in your Flask application's code.
-2. Commit and push the changes to trigger the Jenkins pipeline.
+> 1. Update the database connection strings in your Flask application's code.
+> 2. Commit and push the changes to trigger the Jenkins pipeline.
 
 ## AWS Infrastructure Details
-- Each VPC contains an internet gateway, two public subnets, and EC2 instances hosting the Flask application.
-- An Application Load Balancer is set up to distribute traffic between the EC2 instances.
+> - Each VPC contains an internet gateway, two public subnets, and EC2 instances hosting the Flask application.
+> - An Application Load Balancer is set up to distribute traffic between the EC2 instances.
 ---
 
 ## Issues 
