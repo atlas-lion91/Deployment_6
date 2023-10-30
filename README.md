@@ -1,7 +1,7 @@
 # Deployment of Banking Application with a Jenkins Agent Infrastructure using Terraform
 
 *Date: October 28, 2023*  
-*Author: Khalil Elkharbibi *
+*Authored by: Khalil Elkharbibi *
 
 ---
 
