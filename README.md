@@ -1,4 +1,4 @@
-# Deployment Guide: Retail Banking Application on AWS with Terraform and Jenkins
+# Deployment 6: Retail Banking Application on AWS with Terraform and Jenkins
 
 October 28, 2023 
 
@@ -119,7 +119,6 @@ October 28, 2023
 > 2. Configure the pipeline to connect to your GitHub repository.
 > 3. Ensure that pushes to the main branch trigger builds.
 
-![Jenkins](https://github.com/atlas-lion91/Deployment_6/assets/140761974/6b8444c7-36ac-472d-89b2-d37ad82dc373)
 
 ## Jenkins Agent Configuration
 > 1. Add your Jenkins agent through the Jenkins dashboard.
@@ -181,25 +180,50 @@ October 28, 2023
 > 2. Ensure the database is publicly accessible and configure the security group to allow traffic on port 3306.
 > 3. Note down the database endpoint for use in your application code.
 
+![Dep_6 RDS database](https://github.com/atlas-lion91/Deployment_6/assets/140761974/d2c238e5-8ade-44c5-81e7-e6c502c1c7d1)
+![DB Endpoint](https://github.com/atlas-lion91/Deployment_6/assets/140761974/c5100a98-4034-44ef-a9b6-6dde3dd91611)
+
 ## Application Code Setup
 > 1. Update the database connection strings in your Flask application's code.
 > 2. Commit and push the changes to trigger the Jenkins pipeline.
+
+
+### Results
+
+The Jenkins Build was successful:
+![Jenkins View](https://github.com/atlas-lion91/Deployment_6/assets/140761974/0e556074-c6b6-4ec8-a132-7f7b928f1b37)
+
+The banking application successfully deployed from all instances:
+![bankingapp_east_instance_1](https://github.com/atlas-lion91/Deployment_6/assets/140761974/e3a51a3f-826d-4c42-9b3e-aebf048b37f3)
+
+![bankingapp_east_instance_2](https://github.com/atlas-lion91/Deployment_6/assets/140761974/b3f911ef-bcc0-4bab-b5d3-55606728b53b)
+
+![bankingapp_west_instance_1](https://github.com/atlas-lion91/Deployment_6/assets/140761974/9fc1ac0c-4e26-4360-aac6-50582a25bdf8)
+
+![bankingapp_west_instance_2](https://github.com/atlas-lion91/Deployment_6/assets/140761974/6f427bd8-8587-4370-95ba-e7759360e8d0)
+
 
 ## Application Load Balancers
 > Application Load Balancers (ALBs) distribute incoming application traffic across multiple targets, such as EC2 instances, in multiple Availability Zones. This ensures the application has increased fault tolerance.
 > We set up ALB's in each region that our application is configured to deploy.
 >
-> 1. Region: us-east-1 (North Virginia)
+1. Region: us-east-1 (North Virginia)
 >    - IP Address Type: ipv4
 >    - Availability Zones: us-east-1c (use1-az6) & us-east-1b (use1-az4)
 >    - Target Groups: arn:aws:elasticloadbalancing:us-east-1:896099932731:targetgroup/tg1-east/f84995c4a13236dd
 >    - Target type: Application Load Balancer
 >   
-> 2. Region: us-west-2 (Oregon)
->     - IP Address Type: ipv4
->     - Availability Zones: us-west-2a (usw2-az1) & us-west-2b (usw2-az2)
->     - Target Groups: arn:aws:elasticloadbalancing:us-west-2:896099932731:loadbalancer/net/ALB-west/246bbf875230c27b
->     - Target type: Application Load Balancer
+>      ![Dep6_Load Balancer east](https://github.com/atlas-lion91/Deployment_6/assets/140761974/cdeee9ba-2d8d-4c27-acf3-8f4c0ead127f)
+  
+2. Region: us-west-2 (Oregon)
+>    - IP Address Type: ipv4
+>    - Availability Zones: us-west-2a (usw2-az1) & us-west-2b (usw2-az2)
+>    - Target Groups: arn:aws:elasticloadbalancing:us-west-2:896099932731:loadbalancer/net/ALB-west/246bbf875230c27b
+>    - Target type: Application Load Balancer
+>   
+>      ![Dep6_Load Balancer west](https://github.com/atlas-lion91/Deployment_6/assets/140761974/ce025551-80da-4d10-bbd8-a8890383d1ee)
+
+ 
 ---
 
 ## Issues 
