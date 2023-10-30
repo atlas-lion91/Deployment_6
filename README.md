@@ -66,8 +66,8 @@ October 28, 2023
 >   - Create a new repository on your GitHub account.
 >   - Copy the repository’s URL.
 >   - Run the following commands in your project directory:
-     ```bash
-     git clone https://github.com/atlas-lion91/Deployment_6.git
+  ```bash
+       git clone https://github.com/atlas-lion91/Deployment_6.git
       cd Deployment_6/
       git init
       git branch second
@@ -80,7 +80,7 @@ October 28, 2023
       terraform plan
       terraform apply
 
-     ```
+  ```
 
 > 3. **Push Your Code to GitHub**: 
 >   - Add all the changes you’ve made to the staging area:
