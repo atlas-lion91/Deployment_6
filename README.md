@@ -1,129 +1,79 @@
-# Deployment of Banking Application with a Jenkins Agent Infrastructure using Terraform
+# Deployment Guide: Retail Banking Application on AWS with Terraform and Jenkins
 
 October 28, 2023 
 
 *Authored by: Khalil Elkharbibi*
 
+## Introduction
+This guide demonstrates how to deploy a Flask web application across two AWS regions (us-east-1, and us-west-2) using Infrastructure as Code (IaC) and Continuous Integration/Continuous Deployment (CI/CD) practices. Each region will include a Virtual Private Cloud (VPC), housing two public subnets, each running an EC2 instance to host the web application. The application instances will connect to a shared MySQL database managed by AWS RDS. This guide also covers setting up a Jenkins CI/CD pipeline to automate the deployment process.
+
+### AWS Components:
+- 2 VPCs (one in each region)
+- 2 public subnets per VPC
+- EC2 instances to host the Flask app
+- An Application Load Balancer in each VPC
+- A shared MySQL database via AWS RDS
+
+### CI/CD Components:
+- Jenkins host and agent servers for automated deployments
+
+## Prerequisites
+- AWS CLI installed and configured
+- Terraform installed
+- Jenkins installed
+
+
+## System Diagram
+
+## 1. Terraform Setup
+1. **Initialize Your Terraform Project**: Run `terraform init` in your project directory.
+2. **Configure AWS Credentials**: 
+   - Ensure your AWS CLI is configured with the required credentials.
+   - Alternatively, you can set the AWS credentials in your terminal session where Terraform will run:
+     ```sh
+     export AWS_ACCESS_KEY_ID="your_access_key"
+     export AWS_SECRET_ACCESS_KEY="your_secret_key"
+     ```
+
+3. **Validate and Plan Your Infrastructure**: 
+   - Check your Terraform files' syntax with `terraform validate`.
+   - Preview the resources to be created with `terraform plan`.
+
+4. **Apply Your Configuration**: Deploy your infrastructure using `terraform apply`.
+
+5. **Clean Up**: When needed, remove your resources with `terraform destroy`.
+
+6. **Manage Variables**: Use a `variables.tf` file to define and manage your Terraform variables.
+
+## 2. Jenkins Infrastructure Setup
+1. Use Terraform to deploy Jenkins host and agent servers within an existing VPC and subnet.
+2. Configure Jenkins using the provided setup scripts.
+3. Access Jenkins at `http://{jenkins-public-ip}:8080` and follow the setup wizard.
+
+## 3. Jenkins Pipeline Configuration
+1. Create a multibranch pipeline for your Flask application.
+2. Configure the pipeline to connect to your GitHub repository.
+3. Ensure that pushes to the main branch trigger builds.
+
+## 4. Jenkins Agent Configuration
+1. Add your Jenkins agent through the Jenkins dashboard.
+2. Provide the necessary credentials and configuration details.
+
+## 5. AWS RDS MySQL Database Setup
+1. Navigate to the AWS RDS console and create a new MySQL database.
+2. Ensure the database is publicly accessible and configure the security group to allow traffic on port 3306.
+3. Note down the database endpoint for use in your application code.
+
+## 6. Application Code Setup
+1. Update the database connection strings in your Flask application's code.
+2. Commit and push the changes to trigger the Jenkins pipeline.
+
+## 7. AWS Infrastructure Details
+- Each VPC contains an internet gateway, two public subnets, and EC2 instances hosting the Flask application.
+- An Application Load Balancer is set up to distribute traffic between the EC2 instances.
 ---
 
-## Purpose
-> The goal of this project is to leverage Jenkins agents for initializing our main infrastructure and subsequently deploying a banking application across four instances. The Jenkins agent will utilize Terraform commands (`init`, `plan`, and `apply`) for both infrastructure setup and application deployment.
-
----
-
-## Step #1: Illustrating the VPC Infrastructure and the CI/CD Pipeline
-
-
-## Step #2: Jenkins - Automating Build, Test, and Deploy
-> Jenkins plays a crucial role in automating the building, testing, and deployment of our banking application. The Jenkins instance and the agent both require specific software installations. 
-
-### Jenkins Agent Infrastructure
-> Utilize Terraform to instantiate the Jenkins Agent Infrastructure, ensuring that the Jenkins instance and the Jenkins agent instance have all required installations, including Terraform itself.
-
-### Setting Up Jenkins and Configuring the Node
-Instructions:
-> 1. **Create a Key Pair**: Essential for secure SSH access.
-> 2. **Configure Jenkins**: Set up and configure the Jenkins node.
-> 3. **Configure AWS Access and Secret Keys**: Required for the Jenkins node to execute Terraform scripts.
-> 4. **Install the 'Pipeline Keep Running Step' Plugin**: Install manually through the Jenkins GUI.
-
----
-
-## Step #3: GitHub/Git Integration and Setup
-### Setting Up the GitHub Repository for Integration with Jenkins
-> GitHub is pivotal as it stores the files that Jenkins needs for building, testing, building the infrastructure for our banking application, and finally deploying the application itself. To facilitate access from the Jenkins-installed EC2 instance to the repository, a GitHub token needs to be generated and provided to the EC2 instance.
-
-
-#### GIT - Jenkins Agent Infrastructure
-Commands to run:
-```bash
-git clone https://github.com/atlas-lion91/Deployment_6.git
-cd Deployment_6/
-git init
-git branch second
-git switch second
-# Create a new directory jenkinsTerraform
-git add jenkinsTerraform
-# Generate necessary Terraform and script files
-terraform init
-terraform validate
-terraform plan
-terraform apply
-# Commit the infrastructure code to the repository
-git add main.tf terraform.tfvars variables.tf installs1.sh installs2.sh
-git commit -m "Setup Jenkins Agent Infrastructure"
-git push --set-upstream origin second
-git switch main
-git merge second
-git push --all
-```
-
-#### GIT - Update DATABASE_URL
-Commands to run:
-```bash
-git switch second
-# Update the database endpoint in app.py, database.py, load_data.py
-git commit -a -m "Update Database Endpoint"
-git switch main
-git merge second
-git push --all
-```
-
-#### GIT - Banking Application Infrastructure
-Commands to run:
-```bash
-git switch second
-# Trigger Jenkins build here
-git switch main
-# Navigate to "initTerraform" and create Terraform files
-terraform init
-terraform validate
-terraform plan
-terraform apply
-# Destroy resources after verification
-terraform destroy
-git add main.tf terraform.tfvars variables.tf deploy.sh
-git commit -a -m "Setup Banking Application Infrastructure"
-git switch main
-git merge second
-git push --all
-```
-
----
-
-## Step #4: Configuring Amazon RDS for Database Management
-Amazon RDS is utilized to manage our MySQL database across all four instances. It automates backups, syncs data across regions, zones, and instances while ensuring security and reliability.
-
-### Configuring the RDS Database
-
-
-## Step #5: Utilizing Jenkins Agent for Terraform Script Execution
-> The aim is to automate the construction of our banking application’s infrastructure across two regions (US-east-1 and US-west-2). For each region, we need to establish:
-
-> - 1 VPC
-> - 2 Availability Zones
-> - 2 Public Subnets
-> - 2 EC2 Instances
-> - 1 Route Table
-> - 1 Security Group (configured for ports 22 and 8000)
-
-### Deploying the Application
-> We use a `deploy.sh` script for installing dependencies and deploying the banking application. 
-
-#### Jenkins Build
-> Create a Jenkins build named "deploy_6" to run the `Jenkinsfilev`. This build encompasses stages such as "Build", "Test", "Clean", "Init", "Plan", and "Apply". The "Apply" stage also includes the application's deployment.
-
----
-
-## Step #6: Configuring the Application Load Balancer (ALB)
-> The ALB ensures an even distribution of incoming web traffic across multiple servers or instances, bolstering the application's availability, responsiveness, and efficiency.
-
-### Setting Up the ALB
-
-
----
-
-## Issues Encountered
+## Issues 
 > 1. **Resource Shortage in AWS**: Encountered insufficient CPU and internet gateway resources. The solution was to terminate unused resources and re-run Terraform.
 > 2. **Database Endpoint Confusion**: Required trial and error to identify whether to use the DB instance identifier or initial database name.
 > 3. **RDS Port Configuration**: Initially, port 3306 was not configured, leading to a failed test stage.
@@ -132,10 +82,11 @@ Amazon RDS is utilized to manage our MySQL database across all four instances. I
 
 ---
 
-## Optimization Opportunities
-> 1. **Enhance Automation with Terraform Modules**: Streamline the AWS Cloud Infrastructure setup.
-> 2. **Implement Auto Scaling Groups with ALB**: Ensure dynamic scaling based on traffic load.
-> 3. **Utilize Docker for Application Deployment**: Enhance the consistency and efficiency of deployments.
+## Optimization
+
+- Enhance Automation with Terraform Modules: Streamline the AWS Cloud Infrastructure setup.
+- Implement Auto Scaling Groups with ALB: Ensure dynamic scaling based on traffic load.
+- Utilize Docker for Application Deployment: Enhance the consistency and efficiency of deployments.
 
 ---
 
