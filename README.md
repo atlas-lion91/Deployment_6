@@ -21,7 +21,7 @@ October 28, 2023
 > - AWS CLI installed and configured
 > - Terraform installed
 > - Jenkins installed
-
+ 
 
 ## System Diagram
 
